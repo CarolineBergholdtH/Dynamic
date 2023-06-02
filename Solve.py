@@ -12,7 +12,7 @@ def BackwardsInduction(model):
     pnc =  np.nan + np.zeros([n, T])
     pnc[:, T-1] = 1
 
-    # b. Step 3: Backward induction
+    # b. Step 2: Backward induction
     for t in range(T - 2, -1, -1):
         
         # i. Update transition matrix with birth probabilities at given age
@@ -45,7 +45,7 @@ def P_list(model, data):
     # a. Make list of birth probabilities based on birth in data
     T = model.T
     
-    # B. Backwards Induction
+    # b. Backwards induction
     for t in range(T - 2, -1, -1):
         # i. Subset data 
         datad0 = data[(data['d']==0) & (data['t']==t)] 
@@ -61,7 +61,7 @@ def P_list(model, data):
             p2 = tabulate1[i]/sum(tabulate1)
 
         # iv. Append to list
-        model.p1  = np.append(p1,1-np.sum(p1))
+        model.p1 = np.append(p1,1-np.sum(p1))
         model.p2 = np.append(p2,1-np.sum(p2))
 
         # v. Add to list at time t 

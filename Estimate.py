@@ -15,7 +15,7 @@ def ll(theta, model, solver,data, pnames, out=1): # out=1 solve optimization
     model = updatepar(model, pnames, theta)
                                
     # c. Solve the model
-    ev, pnc = solver.BackwardsInduction3(model)
+    ev, pnc = solver.BackwardsInduction(model)
     
     # d. Evaluate likelihood functionnX
     epsilon = 1e-10  # Small constant to avoid division by zero

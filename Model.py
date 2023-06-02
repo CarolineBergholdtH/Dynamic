@@ -32,9 +32,9 @@ class child_model():
         self.p2_list = np.ones([self.T,2])*self.p2
 
         # e. utility parameters
-        self.eta1 =  1.40   # Marginal utility of children
-        self.eta2 = -0.35   # Marginal utility of children squared                           
-        self.mu = 0.88      # Cost of contraception                                    
+        self.eta1 =  0.8   # Marginal utility of children
+        self.eta2 = -0.3   # Marginal utility of children squared                           
+        self.mu   = 0.4      # Cost of contraception                                    
         self.beta = 0.90    # Discount factor
 
         # f. update baseline parameters using keywords
@@ -83,7 +83,7 @@ class child_model():
 
         # a. Value of options:
         value_0 = self.utility + self.beta * self.P1 @ ev0 # nx1 matrix
-        value_1 = self.mu1 + self.utility + self.beta * self.P2 @ ev0   # nx1 matrix
+        value_1 = self.mu + self.utility + self.beta * self.P2 @ ev0   # nx1 matrix
 
         # b. Recenter Bellman by subtracting max(VK, VR)
         maxV = np.maximum(value_0, value_1) 
