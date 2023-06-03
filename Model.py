@@ -12,7 +12,6 @@ class child_model():
   
         # a. parameters
         self.n = 5                     # 4 = Number of possible children
-        self.nX = 5                    # Number of possible states/grid points
         self.max = 5                   # Max of children groups
         
         # b. number of couples for simulations
@@ -26,7 +25,7 @@ class child_model():
         self.T = self.terminal_age - self.marriage_age          # Fertile years 
 
         # d. structual parameters
-        self.p1 = np.array([0.6, 0.4])              # Transition probability when not contracepting
+        self.p1 = np.array([1, 0])              # Transition probability when not contracepting
         self.p2 = np.array([1, 0])                  # Transition probability when contracepting
         self.p1_list = np.ones([self.T,2])*self.p1  # Transistion probabilities at each age
         self.p2_list = np.ones([self.T,2])*self.p2
@@ -35,7 +34,7 @@ class child_model():
         self.eta1 =  0.8   # Marginal utility of children
         self.eta2 = -0.3   # Marginal utility of children squared                           
         self.mu   = 0.4      # Cost of contraception                                    
-        self.beta = 0.90    # Discount factor
+        self.beta = 0.9   # Discount factor
 
         # f. update baseline parameters using keywords
         for key,val in kwargs.items():
@@ -204,6 +203,10 @@ class child_model():
         t = t.astype(int)           
         t = t-18   # Subtract 18 so that age 18 will become the first period 0
 
+        for i, s in enumerate(x):
+           if s > 4:
+               x[i] = 4
+
         # d. Collect in a dataframe
         data = {'id': idx, 't' : t,'contraception choice':cc, 'd': d, 'x': x, 'dx1': dx1}
         df = pd.DataFrame(data) 
@@ -211,7 +214,7 @@ class child_model():
         # e. Remove sterilized couples, couples with wife's age below 18, and couples with more than 4 children 
         df = df.drop(df[df['contraception choice'] == 3].index, axis=0)
         df = df.drop(df[df['t'] < 0].index, axis=0)
-        df = df.drop(df[df['x'] > 4].index, axis=0)
+        #df = df.drop(df[df['x'] > 4].index, axis=0)
 
         # f. Save data
         dta = df.drop(['contraception choice'],axis=1)

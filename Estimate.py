@@ -3,7 +3,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 
-def ll(theta, model, solver,data, pnames, out=1): # out=1 solve optimization
+def ll(theta, model, solver,data, pnames): 
     
     # a. Unpack and convert to numpy array
     x = np.array(data.x)       
@@ -13,6 +13,7 @@ def ll(theta, model, solver,data, pnames, out=1): # out=1 solve optimization
 
     # b. Update values
     model = updatepar(model, pnames, theta)
+    model.create_grid()
                                
     # c. Solve the model
     ev, pnc = solver.BackwardsInduction(model)
@@ -29,10 +30,8 @@ def ll(theta, model, solver,data, pnames, out=1): # out=1 solve optimization
     log_lik = np.log(function)
 
     # g. Return objective function (negative mean log likleihood)
-    if out == 1:
-        return np.mean(-log_lik)
+    return np.mean(-log_lik)
 
-    return model, lik_pr, pnc, ev, d, x, dx1 
 
 def updatepar(par,parnames, parvals):
 
